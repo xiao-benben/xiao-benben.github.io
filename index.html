@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-09-11 20:57:39 / Modified: 21:00:18" itemprop="dateCreated datePublished" datetime="2021-09-11T20:57:39+08:00">2021-09-11</time>
+              <time title="Created: 2021-09-11 20:57:39 / Modified: 21:06:29" itemprop="dateCreated datePublished" datetime="2021-09-11T20:57:39+08:00">2021-09-11</time>
             </span>
 
           
@@ -209,118 +209,11 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean      == hexo cl  <span class="comment">#可以在生成命令前执行清楚缓存命令</span></span><br><span class="line">$ hexo generate   == hexo g</span><br><span class="line">$ hexo deploy     == hexo d</span><br></pre></td></tr></table></figure>
 
 <p>ps：当我们想要新建博客时，使用 <code>$ hexo new &quot;post_name&quot;</code>命令</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><hr>
+<p>当我们想对某个博客删除时，只需将本地 name.md和对应文件夹删除即可，然后再次执行<code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="图片问题"><a href="#图片问题" class="headerlink" title="图片问题"></a>图片问题</h3><ul>
 <li><p>本地图片不清楚放在哪一级目录下才能生效？</p>
 <ul>
-<li><p>绝对路径</p>
-<blockquote>
-<p>将图片统一放在source/images文件中，通过markdown语法访问</p>
-<p><code>/images/image.jpg</code></p>
-<p>图片可以在首页和文章内容被访问到</p>
-</blockquote>
-</li>
-<li><p>相对路径</p>
-<blockquote>
-<p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过站点配置文件_config.yml来生成。</p>
-<p><code>post_asset_folder: true</code></p>
-<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了</p>
-<p><code>image.jpg</code></p>
-<p>这种相对路径的图片显示方法在博文详情页面显示没有问题，但是在首页预览页面图片将显示不出来</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>ps: 本人第一次遇到该问题时，浪费了大量时间。</p>
-<p>惯性思维：直接使用本地文件路径，本地markdown编辑器也可以正常显示图像，其实错了！！！这里的漏洞是：你将本地资源（图像等）push上去，资源在github上的路径和本地是不同的，github会以<code>github_website.io/</code>为根目录（F12就可以发现路径问题），</p>
-<p>所以我们要使用上述绝对/相对路径表示方法（tips：本地编辑器会无法显示，不要担心！！！）</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://xiaowangben.github.io/2021/09/11/hexo1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Ben">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/11/hexo1/" class="post-title-link" itemprop="url">hexo1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-09-11 20:08:53 / Modified: 20:56:09" itemprop="dateCreated datePublished" datetime="2021-09-11T20:08:53+08:00">2021-09-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="初始操作"><a href="#初始操作" class="headerlink" title="初始操作"></a>初始操作</h2><h3 id="选择一个好看的主题"><a href="#选择一个好看的主题" class="headerlink" title="选择一个好看的主题"></a>选择一个好看的主题</h3><hr>
-<p>本人使用的是next主题，<a target="_blank" rel="noopener" href="http://theme-next.iissnan.com/">NexT官方文档</a> ，优势：资源丰富</p>
-<p>更多主题推荐：</p>
-<ul>
-<li>Google网上教程</li>
-<li><a target="_blank" rel="noopener" href="https://hexo.io/themes/">hexo-themes</a></li>
-</ul>
-<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><hr>
-<p>在根目录下用git bash,进入博客本地目录中。</p>
-<p>使用clone 将主题下载（NexT主题链接）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><hr>
-<p>在根目录下打开“_config.yml”配置文件。</p>
-<p>找到theme配置选项修改为 next</p>
-<p><img src="/2021/09/11/hexo1/hexo1.jpg"></p>
-<h3 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h3><hr>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo cl</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-
-<p>如图，在浏览器上输入网址查看本地博客预览。</p>
-<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><hr>
-<p>本地无误后，输入生成和发布命令，将新主题发布到自己的github博客网站。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean      == hexo cl  <span class="comment">#可以在生成命令前执行清楚缓存命令</span></span><br><span class="line">$ hexo generate   == hexo g</span><br><span class="line">$ hexo deploy     == hexo d</span><br></pre></td></tr></table></figure>
-
-<p>ps：当我们想要新建博客时，使用 <code>$ hexo new &quot;post_name&quot;</code>命令</p>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="图片问题"><a href="#图片问题" class="headerlink" title="图片问题"></a>图片问题</h3><ul>
-<li>本地图片不清楚放在哪一级目录下才能生效？<ul>
 <li><p>绝对路径</p>
 <blockquote>
 <p>将图片统一放在source/images文件中，通过markdown语法访问</p>
@@ -503,7 +396,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
