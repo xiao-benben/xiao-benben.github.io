@@ -27,13 +27,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="初始操作选择一个好看的主题 本人使用的是next主题，NexT官方文档 ，优势：资源丰富 更多主题推荐：  Google网上教程 hexo-themes  下载 在根目录下用git bash,进入博客本地目录中。 使用clone 将主题下载（NexT主题链接） 1$ git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;nex">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://xiaowangben.github.io/2021/09/11/hexo1/blog/xiaowangben/source_posts/hexo1/hexo1.jpg">
-<meta property="og:image" content="https://xiaowangben.github.io/images/image.jpg">
+<meta property="og:image" content="https://xiaowangben.github.io/2021/09/11/hexo1/09/11/hexo1/hexo1.jpg">
 <meta property="article:published_time" content="2021-09-11T12:08:53.000Z">
-<meta property="article:modified_time" content="2021-09-11T12:10:14.318Z">
+<meta property="article:modified_time" content="2021-09-11T12:52:13.786Z">
 <meta property="article:author" content="Ben">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiaowangben.github.io/2021/09/11/hexo1/blog/xiaowangben/source_posts/hexo1/hexo1.jpg">
+<meta name="twitter:image" content="https://xiaowangben.github.io/2021/09/11/hexo1/09/11/hexo1/hexo1.jpg">
 
 <link rel="canonical" href="https://xiaowangben.github.io/2021/09/11/hexo1/">
 
@@ -177,7 +176,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-09-11 20:08:53 / Modified: 20:10:14" itemprop="dateCreated datePublished" datetime="2021-09-11T20:08:53+08:00">2021-09-11</time>
+              <time title="Created: 2021-09-11 20:08:53 / Modified: 20:52:13" itemprop="dateCreated datePublished" datetime="2021-09-11T20:08:53+08:00">2021-09-11</time>
             </span>
 
           
@@ -206,7 +205,7 @@
 <h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><hr>
 <p>在根目录下打开“_config.yml”配置文件。</p>
 <p>找到theme配置选项修改为 next</p>
-<p><img src="/2021/09/11/hexo1/blog\xiaowangben\source_posts\hexo1\hexo1.jpg"></p>
+<p><img src="/2021/09/11/hexo1/09/11/hexo1/hexo1.jpg"></p>
 <h3 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h3><hr>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo cl</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
 
@@ -215,16 +214,32 @@
 <p>本地无误后，输入生成和发布命令，将新主题发布到自己的github博客网站。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean      == hexo cl  <span class="comment">#可以在生成命令前执行清楚缓存命令</span></span><br><span class="line">$ hexo generate   == hexo g</span><br><span class="line">$ hexo deploy     == hexo d</span><br></pre></td></tr></table></figure>
 
+<p>ps：当我们想要新建博客时，使用 <code>$ hexo new &quot;post_name&quot;</code>命令</p>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="图片问题"><a href="#图片问题" class="headerlink" title="图片问题"></a>图片问题</h3><ul>
 <li>本地图片不清楚放在哪一级目录下才能生效？<ul>
-<li>绝对路径</li>
+<li><p>绝对路径</p>
+<blockquote>
+<p>将图片统一放在source/images文件中，通过markdown语法访问</p>
+<p><code>/images/image.jpg</code></p>
+<p>图片可以在首页和文章内容被访问到</p>
+</blockquote>
+</li>
+<li><p>相对路径</p>
+<blockquote>
+<p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过站点配置文件_config.yml来生成。</p>
+<p><code>post_asset_folder: true</code></p>
+<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了</p>
+<p><code>image.jpg</code></p>
+<p>这种相对路径的图片显示方法在博文详情页面显示没有问题，但是在首页预览页面图片将显示不出来</p>
+</blockquote>
+</li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<p>将图片统一放在source/images文件中，通过markdown语法访问</p>
-<p><img src="/images/image.jpg"></p>
-<p>图片可以在首页和文章内容被访问到</p>
+<p>ps: 本人第一次遇到该问题时，浪费了大量时间。</p>
+<p>惯性思维：直接使用本地文件路径，本地markdown编辑器也可以正常显示图像，其实错了！！！这里的漏洞是：你将本地资源（图像等）push上去，资源在github上的路径和本地是不同的，github会以<code>github_website.io/</code>为根目录（F12就可以发现路径问题），</p>
+<p>所以我们要使用上述绝对/相对路径表示方法（tips：本地编辑器会无法显示，不要担心！！！）</p>
 </blockquote>
 
     </div>
