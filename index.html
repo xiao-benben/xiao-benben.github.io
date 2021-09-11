@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/09/10/hexo/" class="post-title-link" itemprop="url">hexo</a>
+            <a href="/2021/09/10/hexo/" class="post-title-link" itemprop="url">hexo-常用操作</a>
         </h2>
 
         <div class="post-meta">
@@ -176,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-09-11 18:35:56" itemprop="dateModified" datetime="2021-09-11T18:35:56+08:00">2021-09-11</time>
+                <time title="Modified: 2021-09-11 19:17:57" itemprop="dateModified" datetime="2021-09-11T19:17:57+08:00">2021-09-11</time>
               </span>
 
           
@@ -190,9 +190,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+          <h2 id="主题更换"><a href="#主题更换" class="headerlink" title="主题更换"></a>主题更换</h2><h3 id="选择一个好看的主题"><a href="#选择一个好看的主题" class="headerlink" title="选择一个好看的主题"></a>选择一个好看的主题</h3><hr>
+<p>本人使用的是next主题，网上会针对该主题做多种定制，项目仍在更新。</p>
+<p>主题推荐：</p>
+<ul>
+<li>Google网上教程</li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/themes/">hexo-themes</a></li>
+</ul>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><hr>
+<p>在根目录下用git bash,进入博客本地目录中。</p>
+<p>使用clone 将主题下载（NexT主题链接）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
 
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><hr>
+<p>在根目录下打开“_config.yml”配置文件。</p>
+<p>找到theme配置选项修改为 next</p>
+<p><img src="D:\blog\xiaowangben\images\hexo-常用操作.png" alt="image-20210911190123598"></p>
+<h3 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server --debug == hexo s</span><br></pre></td></tr></table></figure>
 
+<p>如图，在浏览器上输入网址查看本地博客预览。</p>
+<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><hr>
+<p>本地无误后，输入生成和发布命令，将新主题发布到自己的github博客网站。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate   == hexo g</span><br><span class="line">$ hexo deploy     == hexo d</span><br></pre></td></tr></table></figure>
+
+<p>可能出现缓存异常，导致发布后没有变化，可以在生成命令前执行清楚缓存命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean      == hexo cl</span><br></pre></td></tr></table></figure>
 
 
       
