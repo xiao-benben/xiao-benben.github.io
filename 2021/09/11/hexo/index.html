@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="hexo+github博客搭建常用操作及常见问题">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://xiao-benben.github.io/2021/09/11/hexo/blog/xiaobenben/source_posts/hexo/hexo2.jpg">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/09/11/hexo/hexo2.jpg">
 <meta property="og:image" content="https://xiao-benben.github.io/2021/09/11/hexo/hexo1.jpg">
 <meta property="article:published_time" content="2021-09-11T12:57:39.000Z">
-<meta property="article:modified_time" content="2021-09-12T06:25:31.929Z">
+<meta property="article:modified_time" content="2021-09-12T06:43:43.246Z">
 <meta property="article:author" content="Ben">
 <meta property="article:tag" content="tools">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiao-benben.github.io/2021/09/11/hexo/blog/xiaobenben/source_posts/hexo/hexo2.jpg">
+<meta name="twitter:image" content="https://xiao-benben.github.io/2021/09/11/hexo/hexo2.jpg">
 
 <link rel="canonical" href="https://xiao-benben.github.io/2021/09/11/hexo/">
 
@@ -184,7 +184,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-09-12 14:25:31" itemprop="dateModified" datetime="2021-09-12T14:25:31+08:00">2021-09-12</time>
+                <time title="Modified: 2021-09-12 14:43:43" itemprop="dateModified" datetime="2021-09-12T14:43:43+08:00">2021-09-12</time>
               </span>
 
           
@@ -200,7 +200,7 @@
 
       
         <h2 id="初始准备"><a href="#初始准备" class="headerlink" title="初始准备"></a>初始准备</h2><p>网上有众多教程使用hexo+github搭建个人博客，此处不在赘述</p>
-<p>推荐教程：待补充</p>
+<p>推荐教程：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35668237">Hexo+Github搭建blog</a></p>
 <p>本来是不想记录这一部分，奈何手贱，把github的user name给改了，发现博客崩了，菜鸡尝试了一下，嗯，不会复原！！！</p>
 <h3 id="软件清单"><a href="#软件清单" class="headerlink" title="软件清单"></a>软件清单</h3><ol>
 <li><p>Node.js   dos窗口内输入下述命令，出现版本号表示安装成功。</p>
@@ -210,7 +210,7 @@
 <li><p> 创建Github仓库  </p>
 </li>
 </ol>
-<p>   <img src="/2021/09/11/hexo/blog\xiaobenben\source_posts\hexo\hexo2.jpg"></p>
+<p>   <img src="/2021/09/11/hexo/hexo2.jpg"></p>
 <blockquote>
 <p>盗用一张别人博客的截图，步骤如下： </p>
 <p>1  New repository</p>
@@ -245,7 +245,10 @@
 <p>输入<code>ssh -T git@github.com</code>，如果出现successfully，出现你的用户名，那就成功了。</p>
 </blockquote>
 </li>
-<li></li>
+<li><p>发布文章前</p>
+<p>首先在博客根目录下右键打开git bash，安装一个扩展<code>npm i hexo-deployer-git</code>。</p>
+<p>然后就可以写文章、发布文章了</p>
+</li>
 </ol>
 <h2 id="初始操作"><a href="#初始操作" class="headerlink" title="初始操作"></a>初始操作</h2><h3 id="选择一个好看的主题"><a href="#选择一个好看的主题" class="headerlink" title="选择一个好看的主题"></a>选择一个好看的主题</h3><hr>
 <p>本人使用的是next主题，<a target="_blank" rel="noopener" href="http://theme-next.iissnan.com/">NexT官方文档</a> ，优势：教程丰富</p>
@@ -348,8 +351,8 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2021/09/11/hello-world/" rel="next" title="Hello World">
-      Hello World <i class="fa fa-chevron-right"></i>
+    <a href="/2021/09/11/hello-world/" rel="next" title="ben_blog">
+      ben_blog <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
