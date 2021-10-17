@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/09/28/DNS%E8%AF%A6%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/10/16/Life-Oct/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/09/28/DNS%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">Untitled</a>
+            <a href="/2021/10/16/Life-Oct/" class="post-title-link" itemprop="url">Life-Oct</a>
         </h2>
 
         <div class="post-meta">
@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-09-28 20:00:06 / Modified: 21:34:55" itemprop="dateCreated datePublished" datetime="2021-09-28T20:00:06+08:00">2021-09-28</time>
+              <time title="Created: 2021-10-16 09:58:57 / Modified: 10:00:51" itemprop="dateCreated datePublished" datetime="2021-10-16T09:58:57+08:00">2021-10-16</time>
             </span>
 
           
@@ -184,67 +184,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>（Domain Name System）的简称，Domain（网络中的 域）</p>
-<p>简单理解就是<code>域名和IP相互映射</code>的分布式数据库，用户只需要记住域名，DNS便可以转化为机器可以理解的IP地址。而我们平时上网输入的是网址，实际机器访问的是ip地址。</p>
-<p>先介绍一下域名结构</p>
-<img src="/2021/09/28/DNS%E8%AF%A6%E8%A7%A3/blog\xiao-benben\source\_posts\DNS图片\域名树.png" style="zoom:75%;">
-
-<ul>
-<li><p>树的最顶端代表根服务器；</p>
-</li>
-<li><p>根的下一层就是由我们所熟知的.com、.net、.cn等通用域和.cn、.uk等国家域组成，称为顶级域；</p>
-</li>
-<li><p>网上注册的域名基本都是二级域名，比如<a href="https://link.zhihu.com/?target=http://baidu.com">http://baidu.com</a>、<a href="https://link.zhihu.com/?target=http://taobao.com">http://taobao.com</a>等等二级域名，它们基本上是归企业和运维人员管理；</p>
-</li>
-<li><p>接下来是三级或者四级域名；</p>
-</li>
-<li><p>总体概括来说域名是由整体到局部的机制结构。</p>
-</li>
-</ul>
-<p>DNS解析流程</p>
-<img src="/2021/09/28/DNS%E8%AF%A6%E8%A7%A3/blog\xiao-benben\source\_posts\DNS图片\DNS解析流程.png" style="zoom:75%;">
-
-<p>以访问<a href="http://www.baidu.com为例，看下DNS会进行哪些操作：">www.baidu.com为例，看下DNS会进行哪些操作：</a></p>
-<ol>
-<li>首先查看电脑上的DNS缓存，如果有记录，直接返回对应IP地址，否则继续;</li>
-<li>查找电脑上的HOST文件，如果有记录，直接返回对应IP地址，否则继续；</li>
-<li>查找互联网供应商的本地DNS服务器(电信、移动、联通),查看本地DNS服务器是否有记录，如果有记录，直接返回对应IP地址，否则本地DNS服务器向根域名服务器发出请求；</li>
-<li>根域名服务器收到请求，查看是.com顶级域名，将.com顶级域名服务器对应IP返回给本地DNS服务器；</li>
-<li>本地DNS服务器收到回复后，向.com顶级域名服务器发出请求；</li>
-<li>.com收到请求后，查看是.baidu.com次级域名，于是返回.baidu.com次级域名服务器的IP地址给DNS服务器；</li>
-<li>本地DNS收到回复后，向.baidu.com 发起请求;</li>
-<li>.baidu.com次级域名服务器收到请求后，查看是自己管理的域名，于是查看域名IP地址映射表，将<a target="_blank" rel="noopener" href="http://www.baidu.com的ip地址返回给本地dns服务器;/">www.baidu.com的IP地址返回给本地DNS服务器；</a></li>
-<li>本地DNS收到回复后，向电脑回复IP地址，并记录在本地DNS服务器缓存记录中；</li>
-<li>电脑收到回复后，使用IP地址访问网站，并把记录写入电脑DNS缓存中。</li>
-</ol>
-<p>DNS记录</p>
-<img src="/2021/09/28/DNS%E8%AF%A6%E8%A7%A3/blog\xiao-benben\source\_posts\DNS图片\DNS资源记录.png" style="zoom:75%;">
-
-<ul>
-<li><p>TTL：生存周期，也就是保存记录的时长</p>
-</li>
-<li><p>class：IN就是internet，DNS主要支持的协议IN。</p>
-</li>
-<li><p>type： 一般网站都是A（IPv4的主机地址)。</p>
-<ul>
-<li>A ：Address地址， IPv4</li>
-<li>AAAA：Address地址 IPv6</li>
-</ul>
-</li>
-</ul>
-<h2 id="DNS服务器分类"><a href="#DNS服务器分类" class="headerlink" title="DNS服务器分类"></a>DNS服务器分类</h2><img src="/2021/09/28/DNS%E8%AF%A6%E8%A7%A3/blog\xiao-benben\source\_posts\DNS图片\DNS服务器分类.png" style="zoom:75%;">
-
-<p>常用的DNS服务器分为权威解析服务器和递归解析服务器</p>
-<p>其中递归解析服务器也称为本地服务器（主要用于请求，并记录历史解析)</p>
-<p>权威服务器保管部分区域的数据</p>
-<h2 id="DNS代理"><a href="#DNS代理" class="headerlink" title="DNS代理"></a>DNS代理</h2><p>（DNS Proxy) 用于DNS Clienthe DNS Server 之间转发DNS请求和应答报文</p>
-<p>优点：当使用DNS Proxy后，如果DNS Server的地址发生了变化，只需改变DNS Proxy上的配置，无需改变每个DNS Clisent的配置，简化网络管理。</p>
-<h2 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h2><blockquote>
-<p>参考链接：</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/egD9roUIofl3KPbFtgIN6A">https://mp.weixin.qq.com/s/egD9roUIofl3KPbFtgIN6A</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88260838">https://zhuanlan.zhihu.com/p/88260838</a></p>
-</blockquote>
-
+          <p>ouc 生活点滴</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/16/Life-Oct/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -263,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/09/28/AFL%E9%98%85%E8%AF%BB/">
+    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/10/16/Schedule-Oct/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -277,7 +225,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/09/28/AFL%E9%98%85%E8%AF%BB/" class="post-title-link" itemprop="url">Untitled</a>
+            <a href="/2021/10/16/Schedule-Oct/" class="post-title-link" itemprop="url">Schedule-Oct</a>
         </h2>
 
         <div class="post-meta">
@@ -288,7 +236,139 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-09-28 16:04:39 / Modified: 20:00:00" itemprop="dateCreated datePublished" datetime="2021-09-28T16:04:39+08:00">2021-09-28</time>
+              <time title="Created: 2021-10-16 09:56:29 / Modified: 10:01:10" itemprop="dateCreated datePublished" datetime="2021-10-16T09:56:29+08:00">2021-10-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>工作安排</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/16/Schedule-Oct/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/10/16/DNS%E7%A7%91%E6%99%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ben">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ben_blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/16/DNS%E7%A7%91%E6%99%AE/" class="post-title-link" itemprop="url">DNS科普</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-10-16 09:48:08 / Modified: 09:52:04" itemprop="dateCreated datePublished" datetime="2021-10-16T09:48:08+08:00">2021-10-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>DNS基本知识</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/16/DNS%E7%A7%91%E6%99%AE/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ben">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ben_blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">AFL源码解析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-10-16 09:47:41 / Modified: 09:52:42" itemprop="dateCreated datePublished" datetime="2021-10-16T09:47:41+08:00">2021-10-16</time>
             </span>
 
           
@@ -361,7 +441,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-10-15 10:55:08" itemprop="dateModified" datetime="2021-10-15T10:55:08+08:00">2021-10-15</time>
+                <time title="Modified: 2021-10-17 20:38:33" itemprop="dateModified" datetime="2021-10-17T20:38:33+08:00">2021-10-17</time>
               </span>
 
           
@@ -375,109 +455,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h2><p>通过分析AFL的局限性，提出创新策略</p>
-<ul>
-<li><p>AFL在代码覆盖率方面存在缺陷！！</p>
-</li>
-<li><p>我们提出一个<code>双管齐下</code>的方法增加覆盖率</p>
-<blockquote>
-<ul>
-<li><p>首先，识别稀有分支（<code>rare branches</code>）</p>
-<p>rare branch：很少AFL 产生的inputs会执行到，仅靠原始的突变策略很难覆盖到这些路径</p>
-</li>
-<li><p>其次，提出了一个新的<code>mutation mask creation algorithm</code>，使得突变偏向于产生可以触发稀有分支的input，（mask 在fuzzing过程中动态计算生成）</p>
-</li>
-<li><p>FairFuzz通过这个方法，实现了更大的分支覆盖，且以相比于AFL更快的速度。另外，在包含嵌套条件结构的程序中，FairFuzz可以在24小时之后，持续发现分支覆盖。定性分析，FairFuzz自动发现关键字的能力增强了</p>
-</li>
-</ul>
-</blockquote>
-</li>
-<li><h4 id="疑问："><a href="#疑问：" class="headerlink" title="疑问："></a><em><strong>疑问：</strong></em></h4><ul>
-<li>keywords在AFL中是什么含义？<ul>
-<li>初步感觉，这个keywords 应该是对应嵌套条件结构,例如if( agrv == “xxxx”),xxxx可能就代表关键字 </li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="INTRODUCTION"><a href="#INTRODUCTION" class="headerlink" title="INTRODUCTION"></a>INTRODUCTION</h2><ul>
-<li><p>AFL  is one of the leading CGF(coverage-guided greybox fuzzing)</p>
-<ul>
-<li>Coverage-guided greybox fuzzing is based on the observation that increasing program coverage often leads to better crash detection</li>
-</ul>
-</li>
-<li><p>AFL执行流程简述</p>
-<ol>
-<li>提供user-provided seed inputs；</li>
-<li>对seed进行字节级的变异；</li>
-<li>使用the mutated inputs 运行target program，并且收集coverage information；</li>
-<li>对于 <code>interesting</code>的mutated inputs 就会存储起来；<ul>
-<li><code>interesting</code>—– the ones that discover new coverage(according to the coverage information)</li>
-</ul>
-</li>
-<li>代替user-provided  seed inputs，用these interesting mutated inputs开启新一轮的Fuzzing；</li>
-<li>一直循环，直到user手动结束。</li>
-</ol>
-</li>
-<li><p>AFL的核心搜索策略基于coverage feedback，the goal ofa AFL and other CGF tools is to maximize the coverage 。但是, <code>AFL often fails to cover key program functionalities</code> </p>
-</li>
-<li><p>基于这一缺陷，我们提出了FairFuzz，它是基于一个新的突变策略（<strong>hit rare branches</strong>）</p>
-<ul>
-<li>就是前面提到的两步，First，it identifies the program braches that are rartely hit by previously-generated inputs. </li>
-<li>Second, 用新的突变策略去击中这些rare branches。</li>
-<li>The mutation strategy 是基于这么一个观察：input 的某些部分成功击中了rare branch，那我们突变的时候要保留这一部分。另外，这个变异策略与试图帮助AFL通过magic byte checks，或者定制power schedules的方法是正交的，并且可以和他们结合，在增加代码覆盖率的同时，增加bug or creshes</li>
-</ul>
-</li>
-<li><p>FairFuzz和AFLFast等其他工具对比，在9个真实基准程序上进行评估，就吹呗</p>
-</li>
-<li><p>总结来说，三点贡献，1、提出了新方法； 2、我们实现了一个开源工具；3、我们用自己的工具和AFL进行对比评估；</p>
-</li>
-<li><h4 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a><em><strong>疑问</strong></em></h4><ul>
-<li>magic byte checks 是什么意思</li>
-<li>power schedule 是什么意思</li>
-</ul>
-<blockquote>
-<p>This mutation strategy is orthogonal to approaches that try to increase crashes found by AFL by helping AFL pass magic byte checks [37,46] or by customizing power schedules [10,11] and can be combined with them to simultaneously increase code coverage and the number of<br>bugs or crashes discovered</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="OVERVIEW"><a href="#OVERVIEW" class="headerlink" title="OVERVIEW"></a>OVERVIEW</h2><p>这一部分更详细的讲解AFL、限制，以及我们怎么去解决这些！</p>
-<h3 id="AFL-Overview"><a href="#AFL-Overview" class="headerlink" title="AFL Overview"></a>AFL Overview</h3><h4 id="AFL大体流程"><a href="#AFL大体流程" class="headerlink" title="AFL大体流程"></a>AFL大体流程</h4><img src="/2021/09/15/fairfuzz/blog\xiao-benben\source\_posts\fairfuzz\Algorithm1.png" style="zoom:75%;">
-
-<h4 id="AFL-覆盖率计算"><a href="#AFL-覆盖率计算" class="headerlink" title="AFL 覆盖率计算"></a>AFL 覆盖率计算</h4><p>覆盖率信息是AFL的关键创新之一，AFL用这个信息判断input是否值得变异，new inputs是否值得save。</p>
-<p>AFL通过在被测程序中插桩来收集覆盖信息。    </p>
-<ul>
-<li>首先，为the basic block 分配a random number 作为ID;</li>
-<li>a transition A to B: <code>( ID (A) &gt;&gt; 1 ) 异或 ID（B）</code>   右移是为了保证区分A to B  、 B to A</li>
-<li>给出了<code>（branch ID，branch hits）</code>    的概念，hits会被分桶。AFL认为出现了新的（<code>branch ID，branch hits）</code>，就是实现了新的覆盖。</li>
-</ul>
-<h4 id="疑问-1"><a href="#疑问-1" class="headerlink" title="疑问"></a>疑问</h4><ul>
-<li>A to B 和C to D 出现的branch ID相同怎么办？<ul>
-<li>hash碰撞问题，AFL没有解决，后期可以看看碰撞问题的严重性，投入是否有足够的回报，是否值得改变</li>
-</ul>
-</li>
-</ul>
-<h4 id="Limitations-of-AFL"><a href="#Limitations-of-AFL" class="headerlink" title="Limitations  of AFL"></a>Limitations  of AFL</h4><p>AFL的搜索策略在例如<code>if嵌套结构</code>中无法深入探索，本文对libxml2’s xmllint utility 的parser.c 文件，运行20次实验，只有一次实验的变异的一个input通过了这个函数的第一行</p>
-<p>AFL的突变是random，即使&lt;!ATTLIST 按照常理是不应该被突变，我们应该将突变限制在最后两个字符，如图示，我们如果对&lt;!ATTLIST部分不突变，只对后两位突变，产生&lt;!ATTLIST ID的概率会增加6倍</p>
-<h4 id="疑问-2"><a href="#疑问-2" class="headerlink" title="疑问"></a>疑问</h4><ul>
-<li><code>token</code>在代码和论文中出现了好多次，这一部分将<code>&lt;!ATTLIST ID</code>中的ID设置为<code>token</code>？</li>
-</ul>
-<h4 id="Overview-of-FairFuzz"><a href="#Overview-of-FairFuzz" class="headerlink" title="Overview of FairFuzz"></a>Overview of FairFuzz</h4><h4 id="疑问-3"><a href="#疑问-3" class="headerlink" title="疑问"></a>疑问</h4><ul>
-<li>keeping the track of the number of inputs which hit each branch？ 代码中是怎么实现记录hit每个branch的inputs 数量的</li>
-</ul>
-<h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
-<li><p>nested conditional structure  嵌套条件结构</p>
-</li>
-<li><p>bugs and vulnerabilities </p>
-<blockquote>
-<p> a bug is when the system isn’t behaving as it’s supposed to, whereas a vulnerability is a bug that manifests itself as an opportunity for exploitation</p>
-<p>bug是系统没有按照预期执行，vulnerability表现为可供利用的机会</p>
-</blockquote>
-</li>
-<li><p>的</p>
-</li>
-</ul>
-
+          <p>Fairfuzz论文概述</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/09/15/fairfuzz/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -630,12 +616,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

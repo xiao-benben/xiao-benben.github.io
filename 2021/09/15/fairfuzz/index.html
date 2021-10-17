@@ -20,20 +20,24 @@
     var CONFIG = {"hostname":"xiao-benben.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="ABSTRACT通过分析AFL的局限性，提出创新策略  AFL在代码覆盖率方面存在缺陷！！  我们提出一个双管齐下的方法增加覆盖率   首先，识别稀有分支（rare branches） rare branch：很少AFL 产生的inputs会执行到，仅靠原始的突变策略很难覆盖到这些路径  其次，提出了一个新的mutation mask creation algorithm，使得突变偏向于产生可以触">
+  <meta name="description" content="Fairfuzz论文概述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fairfuzz">
 <meta property="og:url" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/index.html">
 <meta property="og:site_name" content="Ben_blog">
-<meta property="og:description" content="ABSTRACT通过分析AFL的局限性，提出创新策略  AFL在代码覆盖率方面存在缺陷！！  我们提出一个双管齐下的方法增加覆盖率   首先，识别稀有分支（rare branches） rare branch：很少AFL 产生的inputs会执行到，仅靠原始的突变策略很难覆盖到这些路径  其次，提出了一个新的mutation mask creation algorithm，使得突变偏向于产生可以触">
+<meta property="og:description" content="Fairfuzz论文概述">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/blog/xiao-benben/source/_posts/fairfuzz/Algorithm1.png">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/Algorithm1.png">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/%E5%85%AC%E5%BC%8F1.png">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/Algorithm3.png">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/%E5%85%AC%E5%BC%8F3.png">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/Algorithm2.png">
 <meta property="article:published_time" content="2021-09-15T06:36:26.000Z">
-<meta property="article:modified_time" content="2021-10-15T02:55:08.123Z">
+<meta property="article:modified_time" content="2021-10-17T12:38:33.032Z">
 <meta property="article:author" content="Ben">
 <meta property="article:tag" content="fuzz">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/blog/xiao-benben/source/_posts/fairfuzz/Algorithm1.png">
+<meta name="twitter:image" content="https://xiao-benben.github.io/2021/09/15/fairfuzz/Algorithm1.png">
 
 <link rel="canonical" href="https://xiao-benben.github.io/2021/09/15/fairfuzz/">
 
@@ -183,10 +187,11 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-10-15 10:55:08" itemprop="dateModified" datetime="2021-10-15T10:55:08+08:00">2021-10-15</time>
+                <time title="Modified: 2021-10-17 20:38:33" itemprop="dateModified" datetime="2021-10-17T20:38:33+08:00">2021-10-17</time>
               </span>
 
           
+            <div class="post-description">Fairfuzz论文概述</div>
 
         </div>
       </header>
@@ -264,8 +269,7 @@
 </li>
 </ul>
 <h2 id="OVERVIEW"><a href="#OVERVIEW" class="headerlink" title="OVERVIEW"></a>OVERVIEW</h2><p>这一部分更详细的讲解AFL、限制，以及我们怎么去解决这些！</p>
-<h3 id="AFL-Overview"><a href="#AFL-Overview" class="headerlink" title="AFL Overview"></a>AFL Overview</h3><h4 id="AFL大体流程"><a href="#AFL大体流程" class="headerlink" title="AFL大体流程"></a>AFL大体流程</h4><img src="/2021/09/15/fairfuzz/blog\xiao-benben\source\_posts\fairfuzz\Algorithm1.png" style="zoom:75%;">
-
+<h3 id="AFL-Overview"><a href="#AFL-Overview" class="headerlink" title="AFL Overview"></a>AFL Overview</h3><h4 id="AFL大体流程"><a href="#AFL大体流程" class="headerlink" title="AFL大体流程"></a>AFL大体流程</h4><p><img src="/2021/09/15/fairfuzz/Algorithm1.png"></p>
 <h4 id="AFL-覆盖率计算"><a href="#AFL-覆盖率计算" class="headerlink" title="AFL 覆盖率计算"></a>AFL 覆盖率计算</h4><p>覆盖率信息是AFL的关键创新之一，AFL用这个信息判断input是否值得变异，new inputs是否值得save。</p>
 <p>AFL通过在被测程序中插桩来收集覆盖信息。    </p>
 <ul>
@@ -287,6 +291,57 @@
 <h4 id="Overview-of-FairFuzz"><a href="#Overview-of-FairFuzz" class="headerlink" title="Overview of FairFuzz"></a>Overview of FairFuzz</h4><h4 id="疑问-3"><a href="#疑问-3" class="headerlink" title="疑问"></a>疑问</h4><ul>
 <li>keeping the track of the number of inputs which hit each branch？ 代码中是怎么实现记录hit每个branch的inputs 数量的</li>
 </ul>
+<h3 id="FAIRFUZZ-ALGORITHM"><a href="#FAIRFUZZ-ALGORITHM" class="headerlink" title="FAIRFUZZ ALGORITHM"></a>FAIRFUZZ ALGORITHM</h3><p>Fairfuzz 首先修改inputs的选择；然后，修改这些被选择的inputs的突变方式，Algorithm 2 给出了大体算法</p>
+<h4 id="Mutation-Masking"><a href="#Mutation-Masking" class="headerlink" title="Mutation Masking"></a>Mutation Masking</h4><ul>
+<li><p><strong>符号</strong></p>
+<ul>
+<li>x – a given input</li>
+<li>T – a given testing target </li>
+</ul>
+</li>
+<li><p><strong>Definition 1</strong></p>
+<p>mutate <code>(x,µ,i)</code> denote the input produced by applying mutation µ on x at position i.</p>
+<ul>
+<li>a mutation is a tuple <code>(c, m)</code> ,  m is the number of bytes,   c is one of mutation categories:</li>
+<li>O – overwrites(重写) m bytes starting at position k with some values,</li>
+<li>I – inserts m bytes 的一些序列，在位置k，</li>
+<li>D – deletes m bytes at position k，</li>
+<li> a mutation – µ = (c,m)。</li>
+<li>a position i∈ [0,|x| −m),</li>
+</ul>
+</li>
+<li><p><strong>Definition 2</strong></p>
+<p>The mutation mask is a function maskx,T: N → P({O,I,D}),返回是a subset of {O,I,D}，</p>
+<p>if satisfies ( mutate(x,(c,1),i),T )， 我们可以说a mutation category c∈maskx,T(i)，就是在测试用例x的位置i</p>
+<p>用c中的一种变异类型，就可以命中稀有分支。</p>
+</li>
+<li><p><img src="/2021/09/15/fairfuzz/%E5%85%AC%E5%BC%8F1.png"></p>
+<p><strong><code>okToMutate函数详解</code></strong></p>
+<p>有了input的mask、位置i，一个给定的变异类型μ，看看是否满足突变要求，如果返回是ture，那么下一步执行mutate产生的突变一定可以通过RUNANDSAVE。否则跳过这个位置。</p>
+<p>**<code>computeMask(Prog, input, branch)</code>**函数解析</p>
+<p>计算这个input分别经过O、I、D三种突变之后的突变用例，是否还能命中他的rarest branch。如果是可以的，那么就把这种突变类型在位置i加入到mask中。</p>
+<p>首先，算法流程如下：</p>
+<p><img src="/2021/09/15/fairfuzz/Algorithm3.png"></p>
+</li>
+</ul>
+<p>![公式2.png)的计算流程，对于一个给定的x和rare branch b</p>
+<ul>
+<li>Line 4 ，翻转字节在位置i，从而产生inputO，</li>
+<li>Line7，增加一个任意字节在位置i，从而产生inputI</li>
+<li>Line10，删除一个字节，从而产生inputD</li>
+<li>突变之后，用Lines 5 ，8 ，11的branchesHitBy进行检验，是否命中稀有分支，从而决定是否加入mask[i]</li>
+</ul>
+<h4 id="疑问：-1"><a href="#疑问：-1" class="headerlink" title="疑问："></a>疑问：</h4><ul>
+<li>FairFuzzdoesn’t check whether every value overwritten or inserted results inbbeing hit</li>
+</ul>
+<p><code>RARESTHITBY（Prog，input，numHits</code>）函数解析</p>
+<p>numHits 记录的是到目前为止，所有分支的命中次数，我们看一下执行这个<code>input</code>之后，这个input</p>
+<p>产生的branches，哪一个branch在numHits中是命中次数最少的，把这个input能命中的最稀有的分支与<code>rarity_cutoff</code>这么一个动态阈值进行比较。比rarity_cutoff小，那肯定算得上是稀有分支，这个输入就有被突变的价值。如果大于这个阈值，那就代表这个input没有命中rare branch，没有价值。</p>
+<p><strong>rarity_cutoff的产生</strong></p>
+<p><img src="/2021/09/15/fairfuzz/%E5%85%AC%E5%BC%8F3.png"></p>
+<p>到目前为止最小的numHits，小于等于<code>2的i次幂</code>，我们把<code>2的i次幂</code>称为rarity_cutoff的阈值。</p>
+<p><img src="/2021/09/15/fairfuzz/Algorithm2.png"></p>
+<p>如果 okToMutate( maskx,T,µ,i) 返回为true，mutate(x,µ,i)生成的突变肯定可以通过runAndSave</p>
 <h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
 <li><p>nested conditional structure  嵌套条件结构</p>
 </li>
@@ -296,8 +351,7 @@
 <p>bug是系统没有按照预期执行，vulnerability表现为可供利用的机会</p>
 </blockquote>
 </li>
-<li><p>的</p>
-</li>
+<li></li>
 </ul>
 
     </div>
@@ -321,8 +375,8 @@
       <i class="fa fa-chevron-left"></i> hexo
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/09/28/AFL%E9%98%85%E8%AF%BB/" rel="next" title="">
-       <i class="fa fa-chevron-right"></i>
+    <a href="/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="next" title="AFL源码解析">
+      AFL源码解析 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -382,7 +436,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ABSTRACT"><span class="nav-number">1.</span> <span class="nav-text">ABSTRACT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE%EF%BC%9A"><span class="nav-number">1.0.1.</span> <span class="nav-text">疑问：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INTRODUCTION"><span class="nav-number">2.</span> <span class="nav-text">INTRODUCTION</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-number">2.0.1.</span> <span class="nav-text">疑问</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OVERVIEW"><span class="nav-number">3.</span> <span class="nav-text">OVERVIEW</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AFL-Overview"><span class="nav-number">3.1.</span> <span class="nav-text">AFL Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AFL%E5%A4%A7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">AFL大体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AFL-%E8%A6%86%E7%9B%96%E7%8E%87%E8%AE%A1%E7%AE%97"><span class="nav-number">3.1.2.</span> <span class="nav-text">AFL 覆盖率计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Limitations-of-AFL"><span class="nav-number">3.1.4.</span> <span class="nav-text">Limitations  of AFL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE-2"><span class="nav-number">3.1.5.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-of-FairFuzz"><span class="nav-number">3.1.6.</span> <span class="nav-text">Overview of FairFuzz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE-3"><span class="nav-number">3.1.7.</span> <span class="nav-text">疑问</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%BE%A8%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">名词辨析</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ABSTRACT"><span class="nav-number">1.</span> <span class="nav-text">ABSTRACT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE%EF%BC%9A"><span class="nav-number">1.0.1.</span> <span class="nav-text">疑问：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INTRODUCTION"><span class="nav-number">2.</span> <span class="nav-text">INTRODUCTION</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-number">2.0.1.</span> <span class="nav-text">疑问</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OVERVIEW"><span class="nav-number">3.</span> <span class="nav-text">OVERVIEW</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AFL-Overview"><span class="nav-number">3.1.</span> <span class="nav-text">AFL Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AFL%E5%A4%A7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">AFL大体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AFL-%E8%A6%86%E7%9B%96%E7%8E%87%E8%AE%A1%E7%AE%97"><span class="nav-number">3.1.2.</span> <span class="nav-text">AFL 覆盖率计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Limitations-of-AFL"><span class="nav-number">3.1.4.</span> <span class="nav-text">Limitations  of AFL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE-2"><span class="nav-number">3.1.5.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-of-FairFuzz"><span class="nav-number">3.1.6.</span> <span class="nav-text">Overview of FairFuzz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE-3"><span class="nav-number">3.1.7.</span> <span class="nav-text">疑问</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FAIRFUZZ-ALGORITHM"><span class="nav-number">3.2.</span> <span class="nav-text">FAIRFUZZ ALGORITHM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mutation-Masking"><span class="nav-number">3.2.1.</span> <span class="nav-text">Mutation Masking</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%96%91%E9%97%AE%EF%BC%9A-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">疑问：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%BE%A8%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">名词辨析</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -396,12 +450,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
