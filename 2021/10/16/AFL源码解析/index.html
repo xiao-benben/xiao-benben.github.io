@@ -27,11 +27,14 @@
 <meta property="og:site_name" content="Ben_blog">
 <meta property="og:description" content="源码解析,工作流程">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/blog/xiao-benben/source_posts/forkserver.png">
+<meta property="og:image" content="https://xiao-benben.github.io/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/blog/xiao-benben/source_posts/AFL源码解析/image-1.png">
 <meta property="article:published_time" content="2021-10-16T01:47:41.000Z">
-<meta property="article:modified_time" content="2021-10-17T13:20:41.882Z">
+<meta property="article:modified_time" content="2021-11-01T07:38:55.120Z">
 <meta property="article:author" content="Ben">
 <meta property="article:tag" content="fuzz">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiao-benben.github.io/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/blog/xiao-benben/source_posts/forkserver.png">
 
 <link rel="canonical" href="https://xiao-benben.github.io/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
 
@@ -183,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-10-17 21:20:41" itemprop="dateModified" datetime="2021-10-17T21:20:41+08:00">2021-10-17</time>
+                <time title="Modified: 2021-11-01 15:38:55" itemprop="dateModified" datetime="2021-11-01T15:38:55+08:00">2021-11-01</time>
               </span>
 
           
@@ -198,14 +201,110 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><ul>
-<li><strong>favored</strong><ul>
-<li>阅读AFL源码或者相关博客时，经常看到<code>favor</code>这个词，但是没有看到很好的解释，对一个testcase来说，什么情况才算<code>favor</code>？</li>
+        <p><code>calibrate_case</code></p>
+<ol>
+<li><p>​    确保开启<code>forkserver</code>   - -  <code>init_forkserver</code></p>
+<p><a target="_blank" rel="noopener" href="https://blog.binpang.me/2018/08/06/afl-fork-server/">https://blog.binpang.me/2018/08/06/afl-fork-server/</a></p>
+<ol>
+<li><p>前置函数</p>
+<ol>
+<li><code>fork()</code></li>
+<li><code>*waitpid()* </code></li>
 <li></li>
+</ol>
+</li>
+<li><p><code>AFL</code>提供了两种<code>fuzzer</code>与被<code>fuzz</code>程序通信的方式</p>
+<ol>
+<li><p><code>execv</code> - 执行文件</p>
+<blockquote>
+<p><code>execve</code>函数家族中的<code>int execv (const char * path, char * const argv[ ]);</code></p>
+<h5 id="函数说明"><a href="#函数说明" class="headerlink" title="==函数说明=="></a>==函数说明==</h5><p>​    <code>execv()</code>用来执行参数path字符串所代表的文件路径，与<code>execl()</code>不同的地方在于<code>execve()</code>只需两个参数，第二个参数利用数组指针来传递给执行文件。</p>
+<h5 id="返回值"><a href="#返回值" class="headerlink" title="==返回值=="></a>==返回值==</h5><p>如果执行成功则函数不会返回，执行失败则直接返回-1，失败原因存于<code>errno</code> 中</p>
+<h5 id="AFL代码"><a href="#AFL代码" class="headerlink" title="==AFL代码=="></a>==AFL代码==</h5><p><code>execv(target_path, argv);</code></p>
+<h5 id="摒弃原因"><a href="#摒弃原因" class="headerlink" title="==摒弃原因=="></a>==摒弃原因==</h5><p>在<code>fuzzer</code>中，每次fuzz都调用<code>execv</code>来运行目标程序进行fuzz。然后等待程序执行结束，获得其执行路径和退出状态。</p>
+<p>使用这种方法效率低下。如果目标程序是动态链接的，使用这种方法，每次<code>execv</code>执行程序都会进行内存分配，动态库的链接等过程，无疑是非常耗费时间的。因此<code>AFL</code>默认不会使用这种模式，除非使用特殊选项<code>(AFL_NO_FORKSRV,dumb_mode1)</code>。</p>
+</blockquote>
+</li>
+<li><p><code>forkserver</code></p>
+<ol>
+<li><p>先放一个图</p>
+<p><img src="/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/blog\xiao-benben\source_posts\forkserver.png" alt="forkserver设计"></p>
+<ol>
+<li> 原理：<code>fuzzer</code>和<code>forkserver</code>使用两个管道通信，一个<code>控制管道</code>(<code>forkserver</code>读，<code>fuzzer</code>写)，一个<code>数据管道</code>(<code>fuzzer</code>读，<code>forkserver</code>写)</li>
+</ol>
+<p>   <code>fuzzer</code>会在初始阶段使用<code>execv()</code>，运行一次目标程序，这个运行的程序就被称作<code>forkserver</code>。<code>forkserver</code>会执行到插入的桩(也就上面插入的，第一个碰到的桩应该在main函数入口处)。然后就会运行到插入的main_payload中,其中的逻辑检测到还没有进行的<code>forkserver</code>初始化。就会进行初始化，初始化过程很简单，先是保存共享内存的地址(这个后面再详细说)，然后<code>forkserver</code>会通过<code>数据管道</code>发送4字节的数据告诉<code>fuzzer</code>自己已经准备好了，<code>fuzzer</code>可以随时下达fuzz命令。接着<code>forkserver</code>就会一直等待<code>控制管道</code>中的消息，<code>forkserver</code>也就一直卡在main_payload中，此时正执行到main函数的入口处。</p>
+<p>   <code>fuzzer</code>这边关闭不需要的管道，在<code>数据管道</code>等待<code>forkserver</code>发来的消息。收到<code>forkserver</code>准备好的消息之后，继续运行。</p>
+<p>   每当<code>fuzzer</code>想要fuzz时，它会通过<code>控制管道</code>向<code>forkserver</code>下达命令(发送4个字节的数据)，<code>forkserver</code>通过<code>控制管道</code>接受到命令之后。他自己会再fork出一个子进程(<code>forkserver</code>的子进程，也就是<code>fuzzer</code>的孙子进程)，然后它将子进程id通过数据管道发送给<code>fuzzer</code>，使用接着<code>waitpid()</code>等待子进程结束。子进程这边会回到main函数，继续向下执行，往后遇到的所有桩都只会记录路径，直到子进程退出或挂起(当然挂起之后是由<code>fuzzer</code>检测到timeout然后kill掉)。子进程退出后，<code>forkserver waitpid()</code>也就执行完毕，接着它将把获取到的子进程的退出状态通过<code>数据管道</code>发送给<code>fuzzer</code>。然后就又去read<code>控制管道</code>，等待<code>fuzzer</code>的下一个fuzz命令。</p>
+<p>   <code>forkserver</code>的这种方法使用了copy-on-write:</p>
+<p>   <code>forkserver</code>用fork()产生的子进程会共享其物理空间，只有当各段的内容要发生变化时，才会将父进程的内容复制一份给子进程。也就是说子进程会继承<code>forkserver</code>创建的共享内存空间地址信息(后面讲作用)等，而且可以最大限度的节约CPU内存等资源。</p>
+</li>
+<li></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p><code>write_to_testcase</code> - -  把此条test case内容写入文件中，供孙子进程读取</p>
+<ol>
+<li>存在很多疑问，不太懂这个文件指的是什么？ <code>out_file</code> –  File to fuzz, if any ，或许会在<code>init_forkserver</code>中得到答案！  师兄说<code>out_file</code>这个是一个输入用例的文件名</li>
+</ol>
+</li>
+<li><p><code>run_target</code></p>
+</li>
+<li><p><code>update_bitmap_score</code>  - - 更新全局top_rated[]，利用trace_bits为test case创建mini bits</p>
+<ol>
+<li><code>minimize_bits</code>   - - 对原trace_bits进行压缩，放到只有原先1/8大小的q-&gt;trace_mini中</li>
+</ol>
+</li>
+<li><p><code>count_bytes</code>  - -  就是统计bitmap中被命中的路径数量</p>
+</li>
+<li><p><code>has_new_bits</code>  - - 如果某条边的命中次数发生改变，返回1， 如果有新的边发现返回2，否则返回0</p>
+<ol>
+<li><code>trace_bits</code> 初始为0， 记录命中次数</li>
+<li><code>virgin_bits</code>走过标记为0， 初始为1，没有记录总命中次数，<code>AFL</code> 中没有</li>
+</ol>
+</li>
+</ol>
+<p>==疑问==</p>
+<p><code>exec_cksum</code> 是什么</p>
+<h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><ul>
+<li><p><strong>favored</strong></p>
+<p>阅读<code>AFL</code>源码或者相关博客时，经常看到<code>favor</code>这个词，但是没有看到很好的解释，对一个test case来说，什么情况才算<code>favor</code>？ <code>cull_queue</code> 里面会挑选出favored</p>
+<p><img src="/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/blog\xiao-benben\source_posts\AFL源码解析\image-1.png" alt="image-20211101150357392"></p>
+</li>
+<li><p><code>fd</code></p>
+<p>==fd==即文件描述符，本质上是一个索引值。当打开一个文件时，执行<code>open</code>系统调用，内核向进程返回一个文件描述符，后续执行<code>read</code>、<code>write</code>，只需要用这个文件描述符来标识该文件。</p>
+</li>
+<li><p><code>hash32</code>内部实现 具体功能 / <code>exec_cksum</code>  具体含义  </p>
+</li>
+<li><p><code>init_count_class16</code>  编程跑一下</p>
+</li>
+<li><p><code>calculate_score</code> 看一下 havoc阶段的分数怎么计算的</p>
+<hr>
+</li>
+</ul>
+<h2 id="Fuzz执行流程总结"><a href="#Fuzz执行流程总结" class="headerlink" title="Fuzz执行流程总结"></a>Fuzz执行流程总结</h2><p>第一次的fuzz,核心函数为<code>perform_dry_run</code>，其功能是将给的所有测试用例跑一遍，确保软件如期工作，故只会跑一遍。需要说明的是这里的文件在初始的时候被抽象到一个自定义的结构体中，且组成了队列。在这个函数中核心的调用为<code>res = calibrate_case(argv, q, use_mem, 0, 1);</code>，之后对res判断确定程序的运行情况(crash or sth)，拿翻译看下，这函数的意思是校准用例，看注释的话意思应该是在输入的时候进行测试，前期发现一些有问题的测试用例。应该一共跑个3次或者8次(取决于是否是快速模式)，如果没启动forkserver那么在这用init_forkserver启动。</p>
+<p>​       然后直接就fork出子进程，为其设置一些资源，拷贝文件描述符，设置环境变量等，最终调用<code>execv(target_path, argv);</code>替换进程去执行Binary，由于execv正常是不会返回的，所以出错后后面会在共享内存那里设置一个<code>EXEC_FAIL_SIG</code>,通过对于管道文件的读取可以判断forkserver是否正常启动，这块就和之前插桩的代码联系了起来，判断方式是说如果正常操作会有一个4字节的Hello信息，确保启动正常就进入<code>waitpid(forksrv_pid, &amp;status, 0)</code>的等待，后面对接收到的status进行判断确定子进程的运行状况。</p>
+<p>​       等启动forkserver完毕之后，又一个核心函数出现了，就是这里的run_target，这个函数在之后每次调用新的二进制程序的时候都会使用，其先检查有无启动forkserver，没有的话就先启动一个，否则我们只注重与forkserver的交互即可(使用ctl_fd写,st_fd读)，因为 binary那边会一直返回子进程的进程号，所以一直等到结果为-1即可中止，最后拿classify_counts((u32*)trace_bits);将结果进行分类。 has_new_bits判断之前的测试有没有增加新的路径(二元的tuple)，逻辑应该就是拿virgin_map这个map同trace_bits进行比较.  update_bitmap_score这个函数很有意思，注释里说每当我们发现一个新的路径，都会调用这个函数来判断其是不是更加 favorable，这个favorable的意思是说是否包含最小的路径集合来遍历到所有bitmap中的位，我们专注于这些集合而忽略其他的。核心的比较方式是fav_factor = q-&gt;exec_us * q-&gt;len;即测试用例执行的时间以及输入长度的乘积，注释说希望找到更快或者规模更小的用例，一旦当前的fav_factor比top_rated[i]要小就会更新这个表，将原来的winner的tc_ref–，当前的插入表中。</p>
+<ul>
+<li><p>perform_dry_run</p>
+<ul>
+<li>calibrate_case(三个caller：fuzz_one、perform_dry_run、save_if_interesting)<ul>
+<li>init_forkserver<ul>
+<li>调用fork，子进程执行 execv(target_path, argv);</li>
 </ul>
 </li>
-<li>待补充</li>
 </ul>
+</li>
+</ul>
+</li>
+<li><p>cull_queue</p>
+<p> 下面会调用<code>cull_queue</code>函数，函数前的注释说我们已经进入了第二个阶段，即用<code>routine</code>来遍历<code>top_rated entry</code>，不断寻找之前没见到过的bytes并且将它们标为<code>favored</code>。函数首先判断sore_changed是不是为真,之后拿贪心算法找能够遍历到所有节点的最小测试集合，比如有三个节点n0,n1,n2,n3和3个测试用例s1,s2,s3。<code>top_rated[0]=s0,top_rated[s2]=s2</code>且<code>s0覆盖n0,n1;s1覆盖n2</code>其中初始化<code>temp_v=[1,1,1,1]</code>，1就表示对应节点没有访问到，初始化为都没访问到。开始先判断<code>temp_v[0]=1</code>，说明没访问到，之后就去看<code>top_rated[0]</code>，发现为1，说明存在一个用例能访问到这个<code>n0</code>，因此进一步查看这个用例，得到其覆盖范围<code>trace_mini=[1,1,0]</code>故据此更新<code>temp_v=[0,0,1]</code>，往下看n1，访问过了，再看n2仍未访问到，再去看top_rated得到s2，再看s2的覆盖范围更新temp_v，就这样标注s0和s1为favored，如果他俩还没有被fuzz，还要<code>pending_favored++</code>。完成上述操作之后将无用的用例标为冗余。</p>
+<p> 再往后就是一个大的循环，也是AFL最最核心的部分，循环开始依然是用<code>cull_queue</code>对队列进行筛选，如果一个<code>cycle</code>都没有新发现尝试更换策略，最终调用<code>skipped_fuzz = fuzz_one(use_argv);</code>这个函数里对测试用例做了变异，</p>
+</li>
+</ul>
+<p>作者：Nevv<br>链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2f3cfb55ba1c">https://www.jianshu.com/p/2f3cfb55ba1c</a></p>
 
     </div>
 
@@ -289,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%96%91%E6%83%91"><span class="nav-number">1.</span> <span class="nav-text">疑惑</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">&#x3D;&#x3D;函数说明&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">2.</span> <span class="nav-text">&#x3D;&#x3D;返回值&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AFL%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">&#x3D;&#x3D;AFL代码&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%91%92%E5%BC%83%E5%8E%9F%E5%9B%A0"><span class="nav-number">4.</span> <span class="nav-text">&#x3D;&#x3D;摒弃原因&#x3D;&#x3D;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%96%91%E6%83%91"><span class="nav-number"></span> <span class="nav-text">疑惑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fuzz%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">Fuzz执行流程总结</span></a></div>
       </div>
       <!--/noindex-->
 
