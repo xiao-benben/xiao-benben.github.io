@@ -310,7 +310,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-11-08 20:46:14" itemprop="dateModified" datetime="2021-11-08T20:46:14+08:00">2021-11-08</time>
+                <time title="Modified: 2021-11-24 16:13:22" itemprop="dateModified" datetime="2021-11-24T16:13:22+08:00">2021-11-24</time>
               </span>
 
           
@@ -324,38 +324,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="linux-常用命令"><a href="#linux-常用命令" class="headerlink" title="linux 常用命令"></a>linux 常用命令</h3><h5 id="1-SSH详解"><a href="#1-SSH详解" class="headerlink" title="1 SSH详解"></a>1 SSH详解</h5><p>专为远程登录会话提供安全性的协议，有效防止信息泄露问题</p>
-<p>远程连接命令：<code>ssh username@IP -p 端口号</code></p>
-<h5 id="2-进程和线程的区别"><a href="#2-进程和线程的区别" class="headerlink" title="2 进程和线程的区别"></a>2 进程和线程的区别</h5><p>==待补充…==</p>
-<h5 id="3-PATH-环境变量"><a href="#3-PATH-环境变量" class="headerlink" title="3 PATH 环境变量"></a>3 PATH 环境变量</h5><p>我们在任意位置运行程序，但是代运行的程序往往不是在当前目录，这时为了方便，提出<code>PATH</code>。 </p>
-<p><code>PATH</code> 用户保存可以搜索的目录路径，我们只需要将路径加入到PATH变量中，就可以在任意位置运行。</p>
-<p><code>echo $PATH</code>查看shell将到哪些目录下寻找命令或程序，PATH的值是一系列的目录</p>
-<h5 id="4-which"><a href="#4-which" class="headerlink" title="4 which"></a>4 which</h5><p>which指令会在环境变量$PATH设置的目录里搜索某个系统命令的位置，用于查看某个系统命令是否存在，以及执行的哪个位置的命令。</p>
-<h5 id="5-shell-正则表达"><a href="#5-shell-正则表达" class="headerlink" title="5 shell 正则表达"></a>5 shell 正则表达</h5><p>==有点麻烦，待补充==</p>
-<h5 id="6-通配符"><a href="#6-通配符" class="headerlink" title="6 通配符"></a>6 通配符</h5><p>可以和find、grep等命令搭配使用</p>
-<p><code>*</code> 可以没有字符，也可以任意字符</p>
-<p><code>？</code> 可以没有或只有一个字符</p>
-<h5 id="7-find"><a href="#7-find" class="headerlink" title="7 find"></a>7 find</h5><p>用来查找文件位置 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find /home/wb/ -name &quot;filename&quot;</span><br><span class="line">查找指定目录下的文件</span><br></pre></td></tr></table></figure>
-
-<h5 id="8-grep"><a href="#8-grep" class="headerlink" title="8 grep"></a>8 grep</h5><p>用来查找文件里符合条件的字符串</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grep test file* </span><br><span class="line">查看以file为前缀的文件中包含test字符串所在行</span><br><span class="line">grep -r update /etc/acpi</span><br><span class="line">查看目录下包含update的所在行内容</span><br></pre></td></tr></table></figure>
-
-<h5 id="9-硬链接-amp-软连接"><a href="#9-硬链接-amp-软连接" class="headerlink" title="9 硬链接&amp;软连接"></a>9 硬链接&amp;软连接</h5><p><span style="color: cornflowerblue;"> 尚未查看博客</span> </p>
-<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-file-content-manage.html">==菜鸟教程==</a> </p>
-<hr>
-<h3 id="VIM常用命令"><a href="#VIM常用命令" class="headerlink" title="VIM常用命令"></a>VIM常用命令</h3><p><code>H</code> 屏幕行首                       <code>M</code> 屏幕中间                             <code>L</code> 屏幕底部</p>
-<p><code>Ctrl + u</code>  向上翻半屏               <code>Ctrl + b</code> 向上翻一屏 </p>
-<p><code>Ctrl + d</code>  向下翻半屏               <code>Ctrl + f</code> 向下翻一屏</p>
-<p><code>gg</code> （回到文件头）                    <code>G</code>     (回到文件尾)</p>
-<p><code>？</code>{正则表达式}                          <code>n</code>  查找下一个                <code>N</code> 查找上一个</p>
-<p><code>dd</code> 删除光标所在行                    <code>u</code> 撤销</p>
-<p><code>yy </code>复制当前行                            <code>p</code> 粘贴</p>
-<p><code>:%s/hello/world/g</code> 将整个文件的hello替换为 world </p>
-<p><code>v</code> 选中内容                                <code>ctrl+v</code> 选中块 </p>
-<p>选中之后                                     <code>y</code>复制               <code>p</code>粘贴</p>
-<hr>
-<h4 id="解释器-amp-编译器-区别"><a href="#解释器-amp-编译器-区别" class="headerlink" title="解释器&amp;编译器 区别"></a>解释器&amp;编译器 区别</h4><h4 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h4><h4 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h4>
+          <p>记录一下软件安全课上涉及到的linux知识......</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/23/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
