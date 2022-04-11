@@ -147,63 +147,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2022/04/11/%E6%97%A5%E5%B8%B8-20220411-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Ben">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ben_blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/11/%E6%97%A5%E5%B8%B8-20220411-1/" class="post-title-link" itemprop="url">日常-20220411</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-04-11 20:45:02" itemprop="dateCreated datePublished" datetime="2022-04-11T20:45:02+08:00">2022-04-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2022/04/11/%E6%97%A5%E5%B8%B8-20220411/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -218,7 +161,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/04/11/%E6%97%A5%E5%B8%B8-20220411/" class="post-title-link" itemprop="url">Untitled</a>
+            <a href="/2022/04/11/%E6%97%A5%E5%B8%B8-20220411/" class="post-title-link" itemprop="url">日常-20220411</a>
         </h2>
 
         <div class="post-meta">
@@ -229,7 +172,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-04-11 20:14:32 / Modified: 20:42:19" itemprop="dateCreated datePublished" datetime="2022-04-11T20:14:32+08:00">2022-04-11</time>
+              <time title="Created: 2022-04-11 20:45:02 / Modified: 20:55:55" itemprop="dateCreated datePublished" datetime="2022-04-11T20:45:02+08:00">2022-04-11</time>
             </span>
 
           
@@ -243,47 +186,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>三月初刚来学校，还没撑几天就封了一个月。</p>
-<p>今天终于解封了！</p>
-<p>难道这就是报复性学习心态，我竟然学了一天 hhhhh</p>
-<p>海大的樱花太好看了，还有拍照的人</p>
-<img src="file:///C:\Users\10230\AppData\Local\Temp\SGPicFaceTpBq\17096\023655EF.jpg" alt="img" style="zoom:67%;">
-
-<h3 id="科研"><a href="#科研" class="headerlink" title="科研"></a>科研</h3><blockquote>
-<p>将封校期间学的一些MUZZ知识重新看了一下，今天看到前三章节，觉得有些疑问，需要补充一些别的知识，AFL掌握的还不是很细节，再看看AFL白皮书。</p>
-</blockquote>
-<h3 id="疑问＆解答"><a href="#疑问＆解答" class="headerlink" title="疑问＆解答"></a>疑问＆解答</h3><ol>
-<li><p>$$Q_s$$如何选择下一个种子 –&gt; AFL中种子选择问题</p>
-</li>
-<li><p>队列中的种子会被丢弃吗</p>
-</li>
-<li><p>突变次数M如何确定      –&gt; AFL中如何种子调度</p>
-</li>
-<li><p>重复次数Nc如何确定    –&gt; AFL中有Nc吗</p>
-<blockquote>
-<p>MUZZ中执行Nc次是为了收集t’的平均执行时间等信息，如果t’能进入$$Q_s$$并被选择突变，这些信息决定突变次数M。而执行过程中，如果执行路径不确定，产生了多个执行路径，Nc就会对应增加。</p>
-</blockquote>
-</li>
-<li><p>补充一下基本块的判定规则，AFL的具体实现 – 结合MUZZ中的那段代码</p>
-</li>
-<li><p>AFL的总体覆盖率如何获得？</p>
-<blockquote>
-<p>师姐介绍了一个可以计算总体覆盖率的工具 AFL-COV，</p>
-<p>但是具体计算方式还没了解</p>
-</blockquote>
-</li>
-<li><p>AFL插桩具体实现</p>
-</li>
-<li><p>多线程方面 线程执行顺序的判定以及原子操作问题–可以看看B站多线程</p>
-</li>
-<li><p>线程上下文  – &gt; 通过Fork Lock 等线程函数  – &gt; 区分不同的线程标识</p>
-</li>
-<li><p>基本块内完成更多插桩  – &gt;  可疑交错范围  –&gt;  线程交错反馈</p>
-<p>线程感知控制流图–可疑交错范围  对应 指针分析知识  ==尚未接触过==</p>
-</li>
-</ol>
-<p>==看完白皮书，尝试将上述一些问题解决，暂时将疑问和解答记录在笔记上，等翻译完白皮书再总结。==</p>
-
+          <p>日常学习生活记录</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/11/%E6%97%A5%E5%B8%B8-20220411/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -856,6 +767,78 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://xiao-benben.github.io/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ben">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ben_blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">AFL源码解析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-10-16 09:47:41" itemprop="dateCreated datePublished" datetime="2021-10-16T09:47:41+08:00">2021-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-11-01 15:38:55" itemprop="dateModified" datetime="2021-11-01T15:38:55+08:00">2021-11-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>源码解析,工作流程</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/16/AFL%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -925,12 +908,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
