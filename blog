@@ -1,0 +1,6 @@
+docker pull  aflplusplus/aflplusplus
+
+docker run -ti -v /home/wb/AFL++:/src aflplusplus/aflplusplus
+
+参考教程：https://mundi-xu.github.io/2021/03/12/Start-Fuzzing-and-crashes-analysis/#afl%E7%9A%84%E5%AE%89%E8%A3%85
+
